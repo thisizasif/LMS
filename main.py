@@ -1,5 +1,9 @@
-import subprocess
+import os
 import importlib
+
+def clear_screen():
+    # Clear screen command for different operating systems
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def display_banner():
     print("*************************************")
@@ -23,20 +27,17 @@ def load_module(module_name):
         print(f"Error: {module_name}.py not found.")
         return None
 
-def execute_makeloan_script():
-    try:
-        subprocess.run(["python3", "makeloan.py"], check=True)
-    except subprocess.CalledProcessError:
-        print("Error executing makeloan.py")
-
 def main():
     while True:
+        clear_screen()
         display_banner()
         main_menu()
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            execute_makeloan_script()
+            makeloan_module = load_module("makeloan")
+            if makeloan_module:
+                makeloan_module.make_loan()
         elif choice == "2":
             makepayment_module = load_module("makepayment")
             if makepayment_module:
