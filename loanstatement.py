@@ -1,36 +1,33 @@
-import tdesktop as td
-
-def calculate_interest():
+def calculate_interest(loan_amount, monthly_payment, num_payments):
     try:
-        loan_amount = float(entry_loan_amount.get())
-        monthly_payment = float(entry_monthly_payment.get())
-        num_payments = int(entry_num_payments.get())
+        loan_amount = float(loan_amount)
+        monthly_payment = float(monthly_payment)
+        num_payments = int(num_payments)
 
         total_interest = (monthly_payment * num_payments) - loan_amount
         interest_percentage = (total_interest / loan_amount) * 100
         monthly_interest = total_interest / num_payments
 
-        result_label.set(f"Total Interest: {total_interest:.2f} INR\n"
-                         f"Interest Percentage: {interest_percentage:.2f}%\n"
-                         f"Monthly Interest: {monthly_interest:.2f} INR")
+        return total_interest, interest_percentage, monthly_interest
     except ValueError:
-        result_label.set("Please enter valid numeric values.")
+        return None
 
-# Create a desktop window
-window = td.Window()
+def main():
+    print("Loan Interest Calculator")
 
-# Create and place widgets
-window.add(td.Label("Loan Amount (INR):"), 1, 1)
-window.add(td.Label("Monthly Payment (INR):"), 2, 1)
-window.add(td.Label("Number of Payments:"), 3, 1)
+    loan_amount = input("Enter Loan Amount (INR): ")
+    monthly_payment = input("Enter Monthly Payment (INR): ")
+    num_payments = input("Enter Number of Payments: ")
 
-entry_loan_amount = window.add(td.Entry(), 1, 2)
-entry_monthly_payment = window.add(td.Entry(), 2, 2)
-entry_num_payments = window.add(td.Entry(), 3, 2)
+    result = calculate_interest(loan_amount, monthly_payment, num_payments)
 
-calculate_button = window.add(td.Button("Calculate Interest", calculate_interest), 4, 1, 2)
+    if result is not None:
+        total_interest, interest_percentage, monthly_interest = result
+        print(f"\nTotal Interest: {total_interest:.2f} INR")
+        print(f"Interest Percentage: {interest_percentage:.2f}%")
+        print(f"Monthly Interest: {monthly_interest:.2f} INR")
+    else:
+        print("\nPlease enter valid numeric values.")
 
-result_label = window.add(td.Label(""), 5, 1, 2)
-
-# Run the desktop application
-window.run()
+if __name__ == "__main__":
+    main()
