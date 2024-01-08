@@ -1,60 +1,44 @@
+import json
 import os
-import importlib
+import uuid
 
-def clear_screen():
-    # Clear screen command for different operating systems
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-def display_banner():
+def make_loan():
     print("*************************************")
-    print("     Welcome to Loan Management      ")
-    print("         Crafted by: thisizasif      ")
-    print("    GitHub: https://github.com/thisizasif")
+    print("         Loan Application Form       ")
     print("*************************************")
 
-def main_menu():
-    print("\nOptions:")
-    print("1. Make Loan")
-    print("2. Make Payment")
-    print("3. Loan Statement")
-    print("4. Account Details")
-    print("5. Exit")
+    # Generate a unique borrower ID
+    borrower_id = str(uuid.uuid4())
 
-def load_module(module_name):
-    try:
-        return importlib.import_module(module_name)
-    except ImportError:
-        print(f"Error: {module_name}.py not found.")
-        return None
+    # Get user input for loan application
+    name = input("1. Enter your full name: ")
+    phone_number = input("2. Enter your phone number: ")
+    monthly_income = float(input("3. Enter your monthly income: "))
+    loan_amount = float(input("4. Enter the amount of loan you are requesting: "))
+    loan_purpose = input("5. Enter the purpose of the loan: ")
 
-def main():
-    while True:
-        clear_screen()
-        display_banner()
-        main_menu()
-        choice = input("Enter your choice: ")
+    # Create a dictionary to store loan application details
+    loan_application = {
+        "borrower_id": borrower_id,
+        "name": name,
+        "phone_number": phone_number,
+        "monthly_income": monthly_income,
+        "loan_amount": loan_amount,
+        "loan_purpose": loan_purpose,
+    }
 
-        if choice == "1":
-            makeloan_module = load_module("makeloan")
-            if makeloan_module:
-                makeloan_module.make_loan()
-        elif choice == "2":
-            makepayment_module = load_module("makepayment")
-            if makepayment_module:
-                makepayment_module.make_payment()
-        elif choice == "3":
-            loanstatement_module = load_module("loanstatement")
-            if loanstatement_module:
-                loanstatement_module.view_statement()
-        elif choice == "4":
-            accountdetails_module = load_module("accountdetails")
-            if accountdetails_module:
-                accountdetails_module.view_account_details()
-        elif choice == "5":
-            print("Exiting the Loan Management System. Goodbye!")
-            break
-        else:
-            print("Invalid choice. Please try again.")
+    # Create a folder named "Loan_Application_Forms" if it doesn't exist
+    forms_folder = "Loan_Application_Forms"
+    os.makedirs(forms_folder, exist_ok=True)
+
+    # Save loan application details to a JSON file
+    file_name = f"{forms_folder}/loan_application_{borrower_id}.json"
+    with open(file_name, "w") as json_file:
+        json.dump(loan_application, json_file, indent=4)
+
+    print("\nLoan application submitted successfully!")
+    print(f"Your Borrower ID: {borrower_id}")
+    print(f"Details saved in: {file_name}")
 
 if __name__ == "__main__":
-    main()
+    make_loan()
