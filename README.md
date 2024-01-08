@@ -13,13 +13,13 @@ To clone the repository in Termux and create a README.md file, you can follow th
 3. Clone the repository:
 
     ```bash
-    git clone https://github.com/thisizasif/Loan-Management-System.git
+    git clone https://github.com/thisizasif/LMS
     ```
 
 4. Change into the cloned directory:
 
     ```bash
-    cd Loan-Management-System
+    cd LMS
     ```
 
 5. Create a README.md file using a text editor like Nano. You can install Nano if it's not already installed:
