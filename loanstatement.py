@@ -1,5 +1,4 @@
-import tkinter as tk
-from tkinter import Label, Entry, Button, StringVar, ttk
+import tdesktop as td
 
 def calculate_interest():
     try:
@@ -11,43 +10,27 @@ def calculate_interest():
         interest_percentage = (total_interest / loan_amount) * 100
         monthly_interest = total_interest / num_payments
 
-        result_label.config(text=f"Total Interest: {total_interest:.2f} INR\n"
-                                  f"Interest Percentage: {interest_percentage:.2f}%\n"
-                                  f"Monthly Interest: {monthly_interest:.2f} INR")
+        result_label.set(f"Total Interest: {total_interest:.2f} INR\n"
+                         f"Interest Percentage: {interest_percentage:.2f}%\n"
+                         f"Monthly Interest: {monthly_interest:.2f} INR")
     except ValueError:
-        result_label.config(text="Please enter valid numeric values.")
+        result_label.set("Please enter valid numeric values.")
 
-# Create the main window
-root = tk.Tk()
-root.title("Loan Interest Calculator")
-root.geometry("400x300")
+# Create a desktop window
+window = td.Window()
 
 # Create and place widgets
-style = ttk.Style()
-style.configure("TLabel", padding=10)
-style.configure("TButton", padding=10)
+window.add(td.Label("Loan Amount (INR):"), 1, 1)
+window.add(td.Label("Monthly Payment (INR):"), 2, 1)
+window.add(td.Label("Number of Payments:"), 3, 1)
 
-label_loan_amount = ttk.Label(root, text="Loan Amount (INR):")
-label_monthly_payment = ttk.Label(root, text="Monthly Payment (INR):")
-label_num_payments = ttk.Label(root, text="Number of Payments:")
+entry_loan_amount = window.add(td.Entry(), 1, 2)
+entry_monthly_payment = window.add(td.Entry(), 2, 2)
+entry_num_payments = window.add(td.Entry(), 3, 2)
 
-label_loan_amount.grid(row=0, column=0, sticky=tk.E)
-label_monthly_payment.grid(row=1, column=0, sticky=tk.E)
-label_num_payments.grid(row=2, column=0, sticky=tk.E)
+calculate_button = window.add(td.Button("Calculate Interest", calculate_interest), 4, 1, 2)
 
-entry_loan_amount = Entry(root)
-entry_monthly_payment = Entry(root)
-entry_num_payments = Entry(root)
+result_label = window.add(td.Label(""), 5, 1, 2)
 
-entry_loan_amount.grid(row=0, column=1, padx=10, pady=10)
-entry_monthly_payment.grid(row=1, column=1, padx=10, pady=10)
-entry_num_payments.grid(row=2, column=1, padx=10, pady=10)
-
-calculate_button = Button(root, text="Calculate Interest", command=calculate_interest, bg="#4CAF50", fg="white")
-calculate_button.grid(row=3, column=0, columnspan=2, pady=15)
-
-result_label = Label(root, text="", font=("Helvetica", 12))
-result_label.grid(row=4, column=0, columnspan=2, pady=10)
-
-# Start the Tkinter event loop
-root.mainloop()
+# Run the desktop application
+window.run()
